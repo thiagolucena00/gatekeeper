@@ -2,10 +2,16 @@ var expect = require('chai').expect;
 var request = require('supertest');
 
 
+
+
 describe('gatekeeper.business', function () {
 
     var express = require('express');
     var bodyParser = require('body-parser');
+    const pinoInspector = require('pino-inspector')
+    const pino = require('express-pino-logger')({
+        level: 'error'
+      });
 
     var app, validInput;
     this.timeout(5000);
@@ -13,7 +19,7 @@ describe('gatekeeper.business', function () {
         app = express();
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
-
+        app.use(pino);
         var businessRouter = require('../routes/business');
 
         app.use(businessRouter);

@@ -1,15 +1,21 @@
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+const businessRouter = require('./routes/business');
 
-var businessRouter = require('./routes/business');
+const pinoInspector = require('pino-inspector')
+const pino = require('express-pino-logger')({
+    level: 'info',
+    prettyPrint: true,
+    prettifier: pinoInspector
+  });
+
 
 var bodyParser = require('body-parser');
 
 var app = express();
 
-app.use(logger('dev'));
+app.use(pino);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

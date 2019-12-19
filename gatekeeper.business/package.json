@@ -20,6 +20,7 @@
     "express-pino-logger": "^4.0.0",
     "mocha": "^6.2.2",
     "pino": "^5.15.0",
+    "pino-inspector": "^0.1.0",
     "supertest": "^4.0.2"
   }
 }

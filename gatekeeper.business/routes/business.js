@@ -15,21 +15,23 @@ const businessInputHandler = [
 
 /* PUT business data. */
 router.put('/', businessInputHandler, function (req, res) {
+  
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
 
   BusinessService.addBusiness(req.body).then(function (result) {
-    // logger.info("Business was added.");
+    req.log.info("Business was added.");
     res.send(req.body);
   }, function (err) {
-    // logger.error(err);
+    req.log.error(err);
   });  
 });
 
 /* GET ... */
-router.get('/', function (req, res, next) {
+router.get('/teste', function (req, res) {
+  req.log.info('something else');
   res.send('test!')
 });
 
