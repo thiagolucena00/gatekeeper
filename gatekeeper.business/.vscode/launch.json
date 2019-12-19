@@ -10,12 +10,11 @@
             "name": "Mocha Tests",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "args": [
-                "-u",
-                "tdd",
                 "--timeout",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/test"
+                "${workspaceFolder}/test",
+                "--exit"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "skipFiles": [
