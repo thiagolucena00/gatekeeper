@@ -1,5 +1,7 @@
 var expect = require('chai').expect;
 var request = require('supertest');
+const config = require('config');
+
 
 describe('gatekeeper.business', function () {
 
@@ -8,7 +10,7 @@ describe('gatekeeper.business', function () {
     const pinoInspector = require('pino-inspector')
     const pino = require('express-pino-logger')({
         level: 'error'
-      });
+    });
 
     var app, validInput;
     this.timeout(5000);
@@ -17,6 +19,7 @@ describe('gatekeeper.business', function () {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
         app.use(pino);
+
         var businessRouter = require('./business.route');
 
         app.use(businessRouter);
@@ -25,7 +28,7 @@ describe('gatekeeper.business', function () {
 
     before(function (done) {
         app = createApp();
-
+  
         app.listen(3000, function (err) {
             if (err) { return done(err); }
             done();
@@ -181,5 +184,5 @@ describe('gatekeeper.business', function () {
             });
     });
 
-    
+
 });
