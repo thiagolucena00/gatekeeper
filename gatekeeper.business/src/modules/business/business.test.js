@@ -1,9 +1,6 @@
 var expect = require('chai').expect;
 var request = require('supertest');
 
-
-
-
 describe('gatekeeper.business', function () {
 
     var express = require('express');
@@ -20,7 +17,7 @@ describe('gatekeeper.business', function () {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
         app.use(pino);
-        var businessRouter = require('../routes/business');
+        var businessRouter = require('./business.route');
 
         app.use(businessRouter);
         return app;

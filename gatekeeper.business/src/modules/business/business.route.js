@@ -1,6 +1,6 @@
 const express = require('express');
-const BusinessService = require('../businessService')
 const { check, validationResult } = require('express-validator');
+const BusinessService = require('./business.service')
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ const businessInputHandler = [
 
 /* PUT business data. */
 router.put('/', businessInputHandler, function (req, res) {
-  
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
@@ -26,7 +26,7 @@ router.put('/', businessInputHandler, function (req, res) {
     res.send(req.body);
   }, function (err) {
     req.log.error(err);
-  });  
+  });
 });
 
 /* GET ... */

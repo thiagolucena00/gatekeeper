@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const businessRouter = require('./routes/business');
+const businessRouter = require('./src/modules/business/business.route');
 
 const pinoInspector = require('pino-inspector')
 const pino = require('express-pino-logger')({
