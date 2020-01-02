@@ -14,7 +14,7 @@ describe('gatekeeper.business Model Schema Validations', function () {
         });
 
         mongoose.connection
-            .once('open', () => console.log('Connected!'))
+            .once('open', () => console.log('...'))
             .on('error', (error) => {
                 console.warn('Error : ', error);
             });
@@ -30,6 +30,14 @@ describe('gatekeeper.business Model Schema Validations', function () {
 
     it('When Code is empty should have a validation error', function (done) {
         var business = new Business();
+
+        business.validate(function (err) {
+            expect(err.errors.code).to.exist;
+            done();
+        });
+    });    
+    it('When Code is less than 3 chars long should have a validation error', function (done) {
+        var business = new Business({ code: '12', name: 'not empty', location: 'not empty', governanceContact: 'not empty' });
 
         business.validate(function (err) {
             expect(err.errors.code).to.exist;

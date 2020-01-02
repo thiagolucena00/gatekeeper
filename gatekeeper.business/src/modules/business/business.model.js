@@ -12,7 +12,8 @@ const BusinessSchema = new mongoose.Schema(
         },
         code: {
             type: mongoose.Schema.Types.String,
-            required: true
+            required: true,
+            minlength: 3
         },
         name: {
             type: mongoose.Schema.Types.String,

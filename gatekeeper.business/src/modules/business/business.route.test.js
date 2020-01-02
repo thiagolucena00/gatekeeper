@@ -31,7 +31,7 @@ describe('gatekeeper.business END To END Tests', function () {
         });
 
         mongoose.connection
-            .once('open', () => console.log('Connected!'))
+            .once('open', () => console.log('...'))
             .on('error', (error) => {
                 console.warn('Error : ', error);
             });
