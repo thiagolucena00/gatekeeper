@@ -11,17 +11,18 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-validator": "^6.3.0",
-    "morgan": "~1.9.1"
+    "mongoose": "^5.8.3",
+    "morgan": "~1.9.1",
+    "body-parser": "^1.19.0",
+    "config": "^3.2.4",
+    "express-pino-logger": "^4.0.0",
+    "pino": "^5.15.0",
+    "pino-inspector": "^0.1.0"
   },
   "devDependencies": {
-    "body-parser": "^1.19.0",
-    "chai": "^4.2.0",
-    "config": "^3.2.4",
     "eslint": "^6.7.2",
-    "express-pino-logger": "^4.0.0",
+    "chai": "^4.2.0",
     "mocha": "^6.2.2",
-    "pino": "^5.15.0",
-    "pino-inspector": "^0.1.0",
     "supertest": "^4.0.2"
   }
 }

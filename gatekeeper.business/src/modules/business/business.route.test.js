@@ -1,9 +1,9 @@
-var expect = require('chai').expect;
-var request = require('supertest');
+const expect = require('chai').expect;
+const request = require('supertest');
 const config = require('config');
-
-
-describe('gatekeeper.business', function () {
+const mongoose = require('mongoose');
+const Business = require('./business.model')
+describe('gatekeeper.business END To END Tests', function () {
 
     var express = require('express');
     var bodyParser = require('body-parser');
@@ -21,8 +21,20 @@ describe('gatekeeper.business', function () {
         app.use(pino);
 
         var businessRouter = require('./business.route');
-
         app.use(businessRouter);
+
+
+        mongoose.Promise = global.Promise; 
+        mongoose.connect('mongodb://localhost:27017/tests', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+
+        mongoose.connection
+            .once('open', () => console.log('Connected!'))
+            .on('error', (error) => {
+                console.warn('Error : ', error);
+            });
         return app;
     }
 
@@ -35,8 +47,14 @@ describe('gatekeeper.business', function () {
         });
     });
 
+    beforeEach((done) => {
+        done();
+    });
+
+
+
     describe('# GET /health-check', () => {
-        it('should return OK', (done) => {
+        it('health-check should return OK', (done) => {
             request(app)
                 .get('/health-check')
                 .expect(200)
