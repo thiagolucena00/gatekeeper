@@ -21,10 +21,10 @@ describe('gatekeeper.business END To END Tests', function () {
         app.use(pino);
 
         var businessRouter = require('./business.route');
-        app.use(businessRouter);
+        app.use('/api', businessRouter);
 
 
-        mongoose.Promise = global.Promise; 
+        mongoose.Promise = global.Promise;
         mongoose.connect('mongodb://localhost:27017/tests', {
             useNewUrlParser: true,
             useUnifiedTopology: true
@@ -56,7 +56,7 @@ describe('gatekeeper.business END To END Tests', function () {
     describe('# GET /health-check', () => {
         it('health-check should return OK', (done) => {
             request(app)
-                .get('/health-check')
+                .get('/api/health-check')
                 .expect(200)
                 .then((res) => {
                     expect(res.text).to.equal('OK');
@@ -70,7 +70,7 @@ describe('gatekeeper.business END To END Tests', function () {
 
         it("should send back a HTTP Code «200»", function (done) {
             request(app)
-                .put('/')
+                .put('/api/create')
                 .set('Content-Type', 'application/json')
                 .send({ 'Code': 'not empty', 'Name': 'not empty', 'Location': 'not empty', 'GovernanceContact': 'not empty' })
                 .expect('Content-Type', /json/)
@@ -81,7 +81,7 @@ describe('gatekeeper.business END To END Tests', function () {
         });
         it('When Code is empty should send back a HTTP Code «422» and a JSON object with «must contain a Code»', function (done) {
             request(app)
-                .put('/')
+                .put('/api/create')
                 .set('Content-Type', 'application/json')
                 .send({ 'Code': '', 'Name': 'not empty', 'Location': 'not empty', 'GovernanceContact': 'not empty' })
                 .expect('Content-Type', /json/)
@@ -95,7 +95,7 @@ describe('gatekeeper.business END To END Tests', function () {
         });
         it('When Code has only white spaces should send back a HTTP Code «422» and a JSON object with «must contain a Code»', function (done) {
             request(app)
-                .put('/')
+                .put('/api/create')
                 .set('Content-Type', 'application/json')
                 .send({ 'Code': '   ', 'Name': 'not empty', 'Location': 'not empty', 'GovernanceContact': 'not empty' })
                 .expect('Content-Type', /json/)
@@ -109,7 +109,7 @@ describe('gatekeeper.business END To END Tests', function () {
         });
         it('When Code is less than 3 chars long should send back a HTTP Code «422» and a JSON object with «must be at least 3 chars long»', function (done) {
             request(app)
-                .put('/')
+                .put('/api/create')
                 .set('Content-Type', 'application/json')
                 .send({ 'Code': 'ab', 'Name': 'not empty', 'Location': 'not empty', 'GovernanceContact': 'not empty' })
                 .expect('Content-Type', /json/)
@@ -123,7 +123,7 @@ describe('gatekeeper.business END To END Tests', function () {
         });
         it('When Name is empty should send back a HTTP Code «422» and a JSON object with «must contain a Name', function (done) {
             request(app)
-                .put('/')
+                .put('/api/create')
                 .set('Content-Type', 'application/json')
                 .send({ 'Code': 'not empty', 'Name': '', 'Location': 'not empty', 'GovernanceContact': 'not empty' })
                 .expect('Content-Type', /json/)
@@ -137,7 +137,7 @@ describe('gatekeeper.business END To END Tests', function () {
         });
         it('When Name has only white spaces should send back a HTTP Code «422» and a JSON object with «must contain a Name', function (done) {
             request(app)
-                .put('/')
+                .put('/api/create')
                 .set('Content-Type', 'application/json')
                 .send({ 'Code': 'not empty', 'Name': '   ', 'Location': 'not empty', 'GovernanceContact': 'not empty' })
                 .expect('Content-Type', /json/)
@@ -151,7 +151,7 @@ describe('gatekeeper.business END To END Tests', function () {
         });
         it('When Location is empty should send back a HTTP Code «422» and a JSON object with «must contain a Location', function (done) {
             request(app)
-                .put('/')
+                .put('/api/create')
                 .set('Content-Type', 'application/json')
                 .send({ 'Code': 'not empty', 'Name': 'not empty', 'Location': '', 'GovernanceContact': 'not empty' })
                 .expect('Content-Type', /json/)
@@ -165,7 +165,7 @@ describe('gatekeeper.business END To END Tests', function () {
         });
         it('When Location has only white spaces should send back a HTTP Code «422» and a JSON object with «must contain a Location', function (done) {
             request(app)
-                .put('/')
+                .put('/api/create')
                 .set('Content-Type', 'application/json')
                 .send({ 'Code': 'not empty', 'Name': 'not empty', 'Location': '   ', 'GovernanceContact': 'not empty' })
                 .expect('Content-Type', /json/)
@@ -179,7 +179,7 @@ describe('gatekeeper.business END To END Tests', function () {
         });
         it('When GovernanceContact is empty should send back a HTTP Code «422» and a JSON object with «must contain a GovernanceContact', function (done) {
             request(app)
-                .put('/')
+                .put('/api/create')
                 .set('Content-Type', 'application/json')
                 .send({ 'Code': 'not empty', 'Name': 'not empty', 'Location': 'not empty', 'GovernanceContact': '' })
                 .expect('Content-Type', /json/)
@@ -193,7 +193,7 @@ describe('gatekeeper.business END To END Tests', function () {
         });
         it('When GovernanceContact has only white should send back a HTTP Code «422» and a JSON object with «must contain a GovernanceContact', function (done) {
             request(app)
-                .put('/')
+                .put('/api/create')
                 .set('Content-Type', 'application/json')
                 .send({ 'Code': 'not empty', 'Name': 'not empty', 'Location': 'not empty', 'GovernanceContact': '   ' })
                 .expect('Content-Type', /json/)

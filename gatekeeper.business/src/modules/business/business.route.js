@@ -16,6 +16,6 @@ const businessInputHandler = [
 router.get('/health-check', (req, res) => res.send('OK'));
 
 /** PUT / - Create a business data. */
-router.put('/', businessInputHandler, BusinessService.create);
+router.put('/create', businessInputHandler, BusinessService.create);
 
 module.exports = router;
