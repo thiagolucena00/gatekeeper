@@ -6,6 +6,10 @@ function create(req, res, next) {
         return res.status(422).json({ errors: errors.array() });
     }
 
+    //TODO: Check for a business with same code.
+
+
+    
     req.log.info("Adding business input.");
     // create a model 
     req.log.info("Business was added.");
