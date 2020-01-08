@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const Business = require('./business.model')
-const mongoose = require('mongoose');
+const APIError = require('./helpers/APIError');
 
 
 function create(req, res, next) {
@@ -17,6 +17,7 @@ function create(req, res, next) {
     .then((foundBusiness) => {
         if(foundBusiness != null)
         {
+            throw new APIError()
             return Promise.reject({ errors: [{msg: 'Already exist a business with the informed code'}]});
         }
         return business.save();

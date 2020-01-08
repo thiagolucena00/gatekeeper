@@ -120,7 +120,6 @@ describe('gatekeeper.business Model Schema Validations', function () {
 
         business001.save(function (err, savedBusiness) {
             if (err) { expect().fail(); }
-            console.log(savedBusiness);
 
             expect(savedBusiness).to.exist;
             expect(savedBusiness).to.be.instanceOf(Business);
