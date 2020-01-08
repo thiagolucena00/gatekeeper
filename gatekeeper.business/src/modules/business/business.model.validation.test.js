@@ -2,10 +2,18 @@ const expect = require('chai').expect;
 const should = require('chai').should();
 const config = require('config');
 const mongoose = require('mongoose');
+const faker = require('faker');
 
 const Business = require('./business.model')
 
 describe('gatekeeper.business Model Schema Validations', function () {
+
+    let validBusiness = {
+        code: faker.random.alphaNumeric(5),
+        name: faker.name.findName(),
+        location: faker.address.streetAddress(),
+        governanceContact: faker.name.findName(),
+    };
 
     before(function (done) {
         mongoose.Promise = global.Promise;
@@ -23,19 +31,20 @@ describe('gatekeeper.business Model Schema Validations', function () {
         done();
     });
 
-    var clean = function(){
-        return new Promise(function(resolve, reject){
-            mongoose.connection.collections.businesses.deleteMany({});
-            resolve();
-        });
-    }
 
     beforeEach(function (done) {
+        var clean = function () {
+            return new Promise(function (resolve, reject) {
+                mongoose.connection.collections.businesses.deleteMany({});
+                resolve();
+            });
+        }
         clean().then(() => done());
     });
 
     it('When Code is empty should have a validation error', function (done) {
-        var business = new Business();
+        var business = new Business(validBusiness);
+        business.code = '';
 
         business.validate(function (err) {
             expect(err.errors.code).to.exist;
@@ -43,15 +52,16 @@ describe('gatekeeper.business Model Schema Validations', function () {
         });
     });
     it('When Code is less than 3 chars long should have a validation error', function (done) {
-        var business = new Business({ code: '12', name: 'not empty', location: 'not empty', governanceContact: 'not empty' });
-
+        var business = new Business(validBusiness);
+        business.code = '12';
         business.validate(function (err) {
             expect(err.errors.code).to.exist;
             done();
         });
     });
     it('When Name is empty should have a validation error', function (done) {
-        var business = new Business();
+        var business = new Business(validBusiness);
+        business.name = '';
 
         business.validate(function (err) {
             expect(err.errors.name).to.exist;
@@ -59,23 +69,25 @@ describe('gatekeeper.business Model Schema Validations', function () {
         });
     });
     it('When location is empty should have a validation error', function (done) {
-        var business = new Business();
+        var business = new Business(validBusiness);
+        business.location = '';
 
         business.validate(function (err) {
-            expect(err.errors.name).to.exist;
+            expect(err.errors.location).to.exist;
             done();
         });
     });
     it('When governanceContact is empty should have a validation error', function (done) {
-        var business = new Business();
+        var business = new Business(validBusiness);
+        business.governanceContact = '';
 
         business.validate(function (err) {
-            expect(err.errors.name).to.exist;
+            expect(err.errors.governanceContact).to.exist;
             done();
         });
     });
     it('When required fields is not empty should NOT have a validation error', (done) => {
-        let business = new Business({ code: 'not empty', name: 'not empty', location: 'not empty', governanceContact: 'not empty' });
+        var business = new Business(validBusiness);
 
         business.validate(function (err) {
             expect(err).to.be.null;
@@ -84,14 +96,17 @@ describe('gatekeeper.business Model Schema Validations', function () {
     });
 
 
-    it('Should return a valid model when ask for find by code', async function() {
-        let business001 = new Business({ code: 'CODE001', name: 'not empty', location: 'not empty', governanceContact: 'not empty' });
-        let business002 = new Business({ code: 'CODE002', name: 'not empty', location: 'not empty', governanceContact: 'not empty' });
+    it('Should return a valid model when ask for find by code', async function () {
+        let sameCode = validBusiness.code;
+        
+        let business001 = new Business(validBusiness);
+        let business002 = new Business(validBusiness);
+        business002.code = sameCode;
 
         await business001.save();
         await business002.save();
 
-        Business.findOne({ code: 'CODE001' }, function (err, business) {
+        Business.findOne({ code: business001.code }, function (err, business) {
             if (err != null) {
                 should.fail();
             }
