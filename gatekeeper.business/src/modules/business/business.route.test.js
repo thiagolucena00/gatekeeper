@@ -7,43 +7,10 @@ const faker = require('faker');
 
 
 describe('gatekeeper.business END To END Tests', function () {
-
-    var express = require('express');
-    var bodyParser = require('body-parser');
-    const pinoInspector = require('pino-inspector')
-    const pino = require('express-pino-logger')({
-        level: 'error'
-    });
-
-    var app, validInput;
+    const app = require('../../../app');
     this.timeout(5000);
-    function createApp() {
-        app = express();
-        app.use(bodyParser.json());
-        app.use(bodyParser.urlencoded({ extended: true }));
-        app.use(pino);
-
-        var businessRouter = require('./business.route');
-        app.use('/api', businessRouter);
-
-
-        mongoose.Promise = global.Promise;
-        mongoose.connect('mongodb://localhost:27017/tests', {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-
-        mongoose.connection
-            .once('open', () => console.log('...'))
-            .on('error', (error) => {
-                console.warn('Error : ', error);
-            });
-        return app;
-    }
 
     before(function (done) {
-        app = createApp();
-
         app.listen(3000, function (err) {
             if (err) { return done(err); }
             done();
@@ -81,7 +48,6 @@ describe('gatekeeper.business END To END Tests', function () {
     });
 
     describe('# PUT /', () => {
-        ;
 
         it('When Code is empty should send back a HTTP Code «422» and a JSON object with «must contain a Code»', function (done) {
 

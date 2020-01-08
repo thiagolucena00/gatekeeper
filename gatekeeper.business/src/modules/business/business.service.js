@@ -7,7 +7,7 @@ function create(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
-    }
+    }    
     req.log.info("Adding business input.");
 
     const business = new Business(req.body);

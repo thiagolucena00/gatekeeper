@@ -7,19 +7,22 @@ const mongoose = require('mongoose');
 
 const pinoInspector = require('pino-inspector')
 const pino = require('express-pino-logger')({
+    enabled: config.util.getEnv('NODE_ENV') != 'test',
     level: 'info',
     prettyPrint: true,
     prettifier: pinoInspector
-  });
+});
 
 const businessRouter = require('./src/modules/business/business.route');
 
 var app = express();
 
 app.use(pino);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.urlencoded({ extended: true }));
