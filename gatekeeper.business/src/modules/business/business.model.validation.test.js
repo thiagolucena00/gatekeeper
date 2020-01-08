@@ -17,7 +17,7 @@ describe('gatekeeper.business Model Schema Validations', function () {
 
     before(function (done) {
         mongoose.Promise = global.Promise;
-        mongoose.connect('mongodb://localhost:27017/tests', {
+        mongoose.connect(config.get('connectionString'), {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
@@ -98,7 +98,7 @@ describe('gatekeeper.business Model Schema Validations', function () {
 
     it('Should return a valid model when ask for find by code', async function () {
         let sameCode = validBusiness.code;
-        
+
         let business001 = new Business(validBusiness);
         let business002 = new Business(validBusiness);
         business002.code = sameCode;
@@ -112,6 +112,21 @@ describe('gatekeeper.business Model Schema Validations', function () {
             }
             expect(business).to.exist;
             expect(business).to.be.instanceOf(Business);
+        });
+    });
+
+    it('Should add assigns createdAt fields to your schema, the type assigned is Date.', function (done) {
+        let business001 = new Business(validBusiness);
+
+        business001.save(function (err, savedBusiness) {
+            if (err) { expect().fail(); }
+            console.log(savedBusiness);
+
+            expect(savedBusiness).to.exist;
+            expect(savedBusiness).to.be.instanceOf(Business);
+            expect(savedBusiness.created_at).to.exist;
+
+            done();
         });
     });
 });

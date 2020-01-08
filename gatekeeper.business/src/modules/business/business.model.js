@@ -27,7 +27,8 @@ const BusinessSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.String,
             required: true
         }
-    }
+    },
+    { timestamps: { createdAt: 'created_at' } }
 );
 
 /**
