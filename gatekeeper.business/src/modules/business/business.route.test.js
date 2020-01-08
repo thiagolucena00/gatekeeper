@@ -60,7 +60,12 @@ describe('gatekeeper.business END To END Tests', function () {
         clean().then(() => done());
     });
 
-
+    after((done) => {
+        mongoose.models = {};
+        mongoose.modelSchemas = {};
+        mongoose.connection.close();
+        done();
+    });
 
     describe('# GET /health-check', () => {
         it('health-check should return OK', (done) => {
@@ -75,7 +80,8 @@ describe('gatekeeper.business END To END Tests', function () {
         });
     });
 
-    describe('# PUT /', () => {;
+    describe('# PUT /', () => {
+        ;
 
         it('When Code is empty should send back a HTTP Code «422» and a JSON object with «must contain a Code»', function (done) {
 
@@ -258,7 +264,7 @@ describe('gatekeeper.business END To END Tests', function () {
                 governanceContact: faker.name.findName(),
             };
 
-            
+
             request(app)
                 .put('/api/create')
                 .set('Content-Type', 'application/json')
