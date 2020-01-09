@@ -40,12 +40,11 @@ app.use((err, req, res, next) => {
     return next(err);
 });
 app.use((err, req, res, next) => {
-    
-    res.status(err.status).json({
+    res.status(err.status).send({
         status: err.status,
         errors: err.errors,
         stack: config.env === 'production' ? err.stack : {},
-    });
+    });    
 });
 
 

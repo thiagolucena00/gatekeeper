@@ -15,7 +15,10 @@ const businessInputHandler = [
 /** GET /health-check - Check service health */
 router.get('/health-check', (req, res) => res.send('OK'));
 
-/** PUT / - Create a business data. */
+/** GET /:id - find business data by id */
+router.get('/:id', BusinessService.findById);
+
+/** PUT / - create a business data. */
 router.put('/create',  businessInputHandler, BusinessService.create);
 
 module.exports = router;

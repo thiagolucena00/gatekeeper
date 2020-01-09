@@ -43,7 +43,52 @@ describe('gatekeeper.business END To END Tests', function () {
                     expect(res.text).to.equal('OK');
                     done();
                 })
-                .catch(done);
+                .catch(e => done(e));
+        });
+    });
+
+    describe('# GET api/.id', () => {
+        it('When searching for a @id that do not exists should send back a HTTP Code «204» with no content.', function (done) {
+
+            request(app)
+                .get('/api/00000d776a326fb40f000001')
+                .expect(204)
+                .then((res) => { done(); })
+                .catch((err) => { done(err) });
+        });
+        it('When searching for a @id that exists should send back a HTTP Code «200» with a JSON object with business data.', function (done) {
+            let id = null;
+            let business001 = {
+                code: faker.random.alphaNumeric(10),
+                name: faker.name.findName(),
+                location: faker.address.streetAddress(),
+                governanceContact: faker.name.findName(),
+            };
+
+            const agent = request(app);
+
+            agent.put('/api/create')
+                .send(business001)
+                .expect(200)
+                .then((res) => {
+                    expect(res.body).to.exist;
+                    expect(res.body._id).to.exist;
+                    id = res.body._id;
+                })
+                .then(function () {
+                    agent.get('/api/' + id)
+                        .expect(200)
+                        .then(function (res) {
+                            expect(res.body).exist;
+                            expect(res.body.code).to.equal(business001.code);
+                            expect(res.body.name).to.equal(business001.name);
+                            expect(res.body.location).to.equal(business001.location);
+                            expect(res.body.governanceContact).to.equal(business001.governanceContact);
+                            done();
+                        })
+                        .catch(err => done(err))
+                })
+                .catch(err => done(err));
         });
     });
 
@@ -229,7 +274,6 @@ describe('gatekeeper.business END To END Tests', function () {
                 location: faker.address.streetAddress(),
                 governanceContact: faker.name.findName(),
             };
-
 
             request(app)
                 .put('/api/create')
