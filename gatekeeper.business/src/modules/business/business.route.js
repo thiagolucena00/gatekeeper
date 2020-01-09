@@ -18,6 +18,9 @@ router.get('/health-check', (req, res) => res.send('OK'));
 /** GET /:id - find business data by id */
 router.get('/:id', BusinessService.findById);
 
+/** GET /find/code/:code - find business data by code */
+router.get('/code/:code', BusinessService.findByCode);
+
 /** PUT / - create a business data. */
 router.put('/create',  businessInputHandler, BusinessService.create);
 

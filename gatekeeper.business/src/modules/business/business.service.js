@@ -34,17 +34,30 @@ function findById(req, res, next) {
         .exec()
         .then((foundBusiness) => {
             if (foundBusiness === null) {
-                console.log('no business was found.')
-                return Promise.reject(new APIError('business ${id} does not exists', 204));
+                return Promise.reject(new APIError(`business ${parameter} does not exists`, 204));
             }
             res.json(foundBusiness);
         })
         .catch(next);
 }
 
+function findByCode(req, res, next) {
+    let parameter = req.params.code;
+
+    Business.findOne({ code: parameter })
+        .exec()
+        .then((foundBusiness) => {
+            if (foundBusiness === null) {
+                return Promise.reject(new APIError(`business ${parameter} does not exists`, 204));
+            }
+            res.json(foundBusiness);
+        })
+        .catch(next);
+}
 module.exports = {
     // load,
     findById,
+    findByCode,
     create,
     // update,
     // list,
