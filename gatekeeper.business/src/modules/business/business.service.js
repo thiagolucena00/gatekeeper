@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const Business = require('./business.model')
-const APIError = require('../../../lib/APIError');
+const APIError = require('../../lib/APIError');
 
 
 function create(req, res, next) {

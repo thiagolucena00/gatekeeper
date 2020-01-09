@@ -3,8 +3,7 @@ const cookieParser = require('cookie-parser');
 const config = require('config');
 const express = require('express');
 const path = require('path');
-const APIError = require('./lib/APIError');
-const { validationResult } = require('express-validator');
+const APIError = require('./src/lib/APIError');
 const mongoose = require('mongoose');
 
 const pinoInspector = require('pino-inspector')
