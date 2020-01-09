@@ -3,6 +3,8 @@ const cookieParser = require('cookie-parser');
 const config = require('config');
 const express = require('express');
 const path = require('path');
+const APIError = require('./lib/APIError');
+const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 
 const pinoInspector = require('pino-inspector')
@@ -29,6 +31,32 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/api', businessRouter);
+
+
+app.use((err, req, res, next) => {
+    if (!(err instanceof APIError)) {
+        const apiError = new APIError(err.message, err.status);
+        return next(apiError);
+    }
+    return next(err);
+});
+app.use((err, req, res, next) => {
+    
+    res.status(err.status).json({
+        status: err.status,
+        errors: err.errors,
+        stack: config.env === 'production' ? err.stack : {},
+    });
+});
+
+
+app.use((req, res, next) => {
+    const err = new APIError('API Not Found', 404);
+    return next(err);
+});
+
+
+
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.get('connectionString'), {

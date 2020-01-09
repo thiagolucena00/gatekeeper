@@ -1,5 +1,5 @@
 const express = require('express');
-const { check, validationResult } = require('express-validator');
+const { check } = require('express-validator');
 const BusinessService = require('./business.service')
 
 const router = express.Router();
@@ -16,6 +16,6 @@ const businessInputHandler = [
 router.get('/health-check', (req, res) => res.send('OK'));
 
 /** PUT / - Create a business data. */
-router.put('/create', businessInputHandler, BusinessService.create);
+router.put('/create',  businessInputHandler, BusinessService.create);
 
 module.exports = router;

@@ -1,11 +1,11 @@
 const { validationResult } = require('express-validator');
 const Business = require('./business.model')
-const APIError = require('./helpers/APIError');
+const APIError = require('../../../lib/APIError');
 
 
 function create(req, res, next) {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
+    if (!errors.isEmpty()) {         
         return res.status(422).json({ errors: errors.array() });
     }    
     req.log.info("Adding business input.");
@@ -17,8 +17,7 @@ function create(req, res, next) {
     .then((foundBusiness) => {
         if(foundBusiness != null)
         {
-            throw new APIError()
-            return Promise.reject({ errors: [{msg: 'Already exist a business with the informed code'}]});
+            throw new APIError('Already exist a business with the informed code', 422);
         }
         return business.save();
     })
@@ -26,7 +25,7 @@ function create(req, res, next) {
         req.log.info("Business was added.");
         res.send(savedBusiness);
     })
-    .catch(e => res.status(422).json(e));
+    .catch(next);
 }
 
 module.exports = {

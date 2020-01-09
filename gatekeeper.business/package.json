@@ -7,15 +7,15 @@
     "test": "set NODE_ENV=test&& mocha -S './src/**/*.test.js'"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "config": "^3.2.4",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "express-pino-logger": "^4.0.0",
     "express-validator": "^6.3.0",
     "mongoose": "^5.8.3",
     "morgan": "~1.9.1",
-    "body-parser": "^1.19.0",
-    "config": "^3.2.4",
-    "express-pino-logger": "^4.0.0",
     "pino": "^5.15.0",
     "pino-inspector": "^0.1.0"
   },
