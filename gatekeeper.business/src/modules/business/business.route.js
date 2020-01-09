@@ -21,7 +21,7 @@ router.get('/:id', BusinessService.findById);
 /** GET /find/code/:code - find business data by code */
 router.get('/code/:code', BusinessService.findByCode);
 
-/** PUT / - create a business data. */
-router.put('/create',  businessInputHandler, BusinessService.create);
+/** POST / - create a business data. */
+router.post('/create',  businessInputHandler, BusinessService.create);
 
 module.exports = router;
